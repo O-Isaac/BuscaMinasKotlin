@@ -1,8 +1,8 @@
 package com.github.isaac.buscaminaskotlin.confg
 
 // Necesario para manejar el estado de las dificultades
-interface IGameConfig {
-    val config: GameConfig
+interface IConfigManager {
+    var config: GameConfig
 }
 
 data class GameConfig(
@@ -10,10 +10,10 @@ data class GameConfig(
     var columns: Int,
 )
 
-object ConfigManagerFacil : IGameConfig {
-    override val config = GameConfig(10,10)
+object ConfigManagerFacil : IConfigManager {
+    override var config = GameConfig(10,10)
 }
 
-object ConfigManagerIntermedio : IGameConfig {
-    override val config = GameConfig(15,15)
+object ConfigManagerIntermedio : IConfigManager {
+    override var config = GameConfig(15,15)
 }
