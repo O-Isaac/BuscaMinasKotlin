@@ -1,18 +1,17 @@
 package com.github.isaac.buscaminaskotlin.components.tablero
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.github.isaac.buscaminaskotlin.confg.ConfigManagerFacil
 
+@Preview(showBackground = true)
 @Composable
 fun Layout() {
     Column(
@@ -22,18 +21,7 @@ fun Layout() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(ConfigManagerFacil.config.columns),
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(ConfigManagerFacil.config.filas * ConfigManagerFacil.config.columns) { index ->
-                val fila = index / ConfigManagerFacil.config.columns
-                val columna = index % ConfigManagerFacil.config.columns
-
-                Celda(fila = fila, columna = columna) { f, c ->
-                    Log.d("BuscaMinas", "Click en $f, $c")
-                }
-            }
-        }
+        TableroTitulo()
+        TableroGrid()
     }
 }
