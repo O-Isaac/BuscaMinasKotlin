@@ -6,17 +6,20 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.isaac.buscaminaskotlin.confg.ConfigManagerFacil
+import com.github.isaac.buscaminaskotlin.models.GameState
 
 @Composable
-fun TableroGrid(modifier: Modifier = Modifier) {
+fun TableroGrid(modifier: Modifier = Modifier, state: GameState = viewModel()) {
+    val config = state.config
     LazyVerticalGrid(
-        columns = GridCells.Fixed(ConfigManagerFacil.config.columns),
+        columns = GridCells.Fixed(config.columns),
         modifier = Modifier.fillMaxSize()
     ) {
-        items(ConfigManagerFacil.config.filas * ConfigManagerFacil.config.columns) { index ->
-            val fila = index / ConfigManagerFacil.config.columns
-            val columna = index % ConfigManagerFacil.config.columns
+        items(config.filas * config.columns) { index ->
+            val fila = index / config.columns
+            val columna = index % config.columns
 
             Celda(fila = fila, columna = columna) { f, c ->
                 Log.d("BuscaMinas", "Click en $f, $c")
