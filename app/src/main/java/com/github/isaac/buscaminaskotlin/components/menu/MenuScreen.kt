@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,6 +29,13 @@ fun MenuScreen(modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center
     )
     {
+        Image(
+            painter = painterResource(R.drawable.fondo2),
+            contentDescription = null,
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.Crop
+        )
+
         Column(
             Modifier.fillMaxWidth().padding(16.dp),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -36,13 +44,10 @@ fun MenuScreen(modifier: Modifier = Modifier) {
                 painter = painterResource(R.drawable.buscaminasmenu),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(300.dp)
+                    .size(400.dp)
+                    .padding(bottom = 212.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(
-                text = "MENÚ PRINCIPAL",
-                style = MaterialTheme.typography.headlineMedium
-            )
+
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Nueva partida",
