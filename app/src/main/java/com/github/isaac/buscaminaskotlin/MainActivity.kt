@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.github.isaac.buscaminaskotlin.components.menu.MenuScreen
 import com.github.isaac.buscaminaskotlin.components.tablero.Layout
 import com.github.isaac.buscaminaskotlin.ui.theme.BuscaMinasKotlinTheme
 
@@ -13,7 +14,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             BuscaMinasKotlinTheme {
-                Layout()
+                MenuScreen()
             }
         }
     }
