@@ -24,9 +24,10 @@ fun TableroGrid(modifier: Modifier = Modifier, state: GameState = viewModel()) {
     //      var isLoading by remember { mutableStateOf(true) }
     //      LaunchedEffect(config) {
     //          withContext(Dispatchers.Default) {
-    //              // Preparar datos del tablero
-    //              delay(100) // Simular procesamiento
+    //              // Preparar datos del tablero en hilo de fondo
+    //              delay(100) // Simular procesamiento pesado
     //          }
+    //          // isLoading se actualiza en el Main thread después del trabajo en background
     //          isLoading = false
     //      }
     //      if (isLoading) { CircularProgressIndicator() } else { /* LazyVerticalGrid */ }
@@ -43,7 +44,7 @@ fun TableroGrid(modifier: Modifier = Modifier, state: GameState = viewModel()) {
     //      var visibleItems by remember { mutableStateOf(50) }
     //      LaunchedEffect(Unit) {
     //          while (visibleItems < totalItems) {
-    //              delay(16) // ~60fps
+    //              delay(16) // Delay corto para crear efecto de carga progresiva suave
     //              visibleItems = min(visibleItems + 10, totalItems)
     //          }
     //      }
