@@ -22,10 +22,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.isaac.buscaminaskotlin.R
 import com.github.isaac.buscaminaskotlin.components.menu.MenuButton
+import com.github.isaac.buscaminaskotlin.confg.*
+import com.github.isaac.buscaminaskotlin.models.GameState
 
-data class Dificultad(val nombre: String, val descripcion: String, val minas: Int)
+data class Dificultad(
+    val nombre: String,
+    val descripcion: String,
+    val configManager: IConfigManager
+)
 data class Apariencia(val nombre: String, val descripcion: String)
 
 @Composable
@@ -70,24 +77,30 @@ fun SeccionTitulo(
 }
 
 @Composable
-fun AjustesScreen() {
+fun AjustesScreen(state: GameState = viewModel()) {
     // Estados
     var dificultadExpandida by remember { mutableStateOf(false) }
-    var dificultadSeleccionada by remember {
-        mutableStateOf(Dificultad("Media", "20 minas", 20))
+    
+    val dificultades = listOf(
+        Dificultad("Alta", "30 minas", ConfigManagerAlta),
+        Dificultad("Media", "20 minas", ConfigManagerMedia),
+        Dificultad("Baja", "10 minas", ConfigManagerBaja)
+    )
+    
+    // Find the current difficulty based on the state's config
+    val dificultadSeleccionada by remember(state.config) {
+        mutableStateOf(
+            dificultades.find { it.configManager.config.minas == state.config.minas }
+                ?: dificultades[1] // Default to Media
+        )
     }
+    
     var sonidoActivado by remember { mutableStateOf(true) }
     var aparienciaExpandida by remember { mutableStateOf(false) }
     var aparienciaSeleccionada by remember {
         mutableStateOf(Apariencia("Del sistema", "Automático según el sistema"))
     }
     var mostrarDialogoBorrar by remember { mutableStateOf(false) }
-
-    val dificultades = listOf(
-        Dificultad("Alta", "30 minas", 30),
-        Dificultad("Media", "20 minas", 20),
-        Dificultad("Baja", "10 minas", 10)
-    )
 
     val apariencias = listOf(
         Apariencia("Del sistema", "Automático según el sistema"),
@@ -267,9 +280,9 @@ fun AjustesScreen() {
                                             }
                                         },
                                         onClick = {
-                                            dificultadSeleccionada = dificultad
+                                            state.changeConfigManager(dificultad.configManager)
                                             dificultadExpandida = false
-                                            Log.d("AjustesScreen", "Dificultad seleccionada: ${dificultad.nombre}")
+                                            Log.d("AjustesScreen", "Dificultad seleccionada: ${dificultad.nombre} con ${dificultad.configManager.config.minas} minas")
                                         },
                                         modifier = Modifier
                                             .fillMaxWidth()
