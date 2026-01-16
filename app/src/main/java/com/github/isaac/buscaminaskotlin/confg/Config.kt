@@ -23,11 +23,10 @@ object ConfigManagerAlta : IConfigManager {
     override var config = GameConfig(20, 20, 30)
 }
 
-// Keep old names for backward compatibility
-object ConfigManagerFacil : IConfigManager {
-    override var config = GameConfig(10, 10, 10)
-}
+// Deprecated: Use ConfigManagerBaja instead
+@Deprecated("Use ConfigManagerBaja instead", ReplaceWith("ConfigManagerBaja"))
+val ConfigManagerFacil = ConfigManagerBaja
 
-object ConfigManagerIntermedio : IConfigManager {
-    override var config = GameConfig(15, 15, 20)
-}
+// Deprecated: Use ConfigManagerMedia instead
+@Deprecated("Use ConfigManagerMedia instead", ReplaceWith("ConfigManagerMedia"))
+val ConfigManagerIntermedio = ConfigManagerMedia

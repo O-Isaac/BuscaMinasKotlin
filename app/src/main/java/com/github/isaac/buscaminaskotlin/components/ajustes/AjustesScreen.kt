@@ -88,11 +88,11 @@ fun AjustesScreen(state: GameState = viewModel()) {
     )
     
     // Find the current difficulty based on the state's config
-    val dificultadSeleccionada by remember(state.config) {
-        mutableStateOf(
+    val dificultadSeleccionada by remember {
+        derivedStateOf {
             dificultades.find { it.configManager.config.minas == state.config.minas }
                 ?: dificultades[1] // Default to Media
-        )
+        }
     }
     
     var sonidoActivado by remember { mutableStateOf(true) }
