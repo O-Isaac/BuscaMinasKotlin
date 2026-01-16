@@ -82,16 +82,16 @@ fun AjustesScreen(state: GameState = viewModel()) {
     var dificultadExpandida by remember { mutableStateOf(false) }
     
     val dificultades = listOf(
-        Dificultad("Alta", "30 minas", ConfigManagerAlta),
-        Dificultad("Media", "20 minas", ConfigManagerMedia),
-        Dificultad("Baja", "10 minas", ConfigManagerBaja)
+        Dificultad("Alta", "${ConfigManagerAlta.config.minas} minas", ConfigManagerAlta),
+        Dificultad("Media", "${ConfigManagerMedia.config.minas} minas", ConfigManagerMedia),
+        Dificultad("Baja", "${ConfigManagerBaja.config.minas} minas", ConfigManagerBaja)
     )
     
     // Find the current difficulty based on the state's config
     val dificultadSeleccionada by remember {
         derivedStateOf {
             dificultades.find { it.configManager.config.minas == state.config.minas }
-                ?: dificultades[1] // Default to Media
+                ?: dificultades.find { it.nombre == "Media" }!! // Default to Media
         }
     }
     
