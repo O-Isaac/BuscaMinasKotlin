@@ -52,7 +52,11 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.appyx.core)
+
+    // Appyx
+    implementation(libs.appyx.navigation)
+    implementation(libs.appyx.components.backstack)
+    ksp(libs.appyx.processor)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
