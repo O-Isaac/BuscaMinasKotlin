@@ -4,17 +4,21 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.github.isaac.buscaminaskotlin.components.menu.MenuScreen
-import com.github.isaac.buscaminaskotlin.components.tablero.Layout
+import androidx.core.view.WindowCompat.enableEdgeToEdge
+import com.bumble.appyx.core.integration.NodeHost
+import com.github.isaac.buscaminaskotlin.navigation.NavigationActivity
+import com.github.isaac.buscaminaskotlin.navigation.RootNode
 import com.github.isaac.buscaminaskotlin.ui.theme.BuscaMinasKotlinTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : NavigationActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             BuscaMinasKotlinTheme {
-                MenuScreen()
+                NodeHost(integrationPoint = appyxV1IntegrationPoint) {
+                    RootNode(buildContext = it)
+                }
             }
         }
     }
