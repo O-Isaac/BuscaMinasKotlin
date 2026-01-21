@@ -61,6 +61,7 @@ fun CreditosScreen(
 
         Spacer(modifier = Modifier.height(30.dp))
 
+
         // SECCIÓN 2: TECNOLOGÍAS
         Text(
             text = "TECNOLOGÍAS:",
