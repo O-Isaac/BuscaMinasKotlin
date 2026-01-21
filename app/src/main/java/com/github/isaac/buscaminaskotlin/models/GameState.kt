@@ -5,13 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 
 import androidx.lifecycle.ViewModel
-import com.github.isaac.buscaminaskotlin.confg.ConfigManagerFacil
+import com.github.isaac.buscaminaskotlin.confg.ConfigManagerMedia
 import com.github.isaac.buscaminaskotlin.confg.GameConfig
 import com.github.isaac.buscaminaskotlin.confg.IConfigManager
 
 
 class GameState : ViewModel() {
-    private var _configManager by mutableStateOf<IConfigManager>(ConfigManagerFacil)
+    private var _configManager by mutableStateOf<IConfigManager>(ConfigManagerMedia)
 
     val config get() = _configManager.config
 

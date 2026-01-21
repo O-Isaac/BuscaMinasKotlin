@@ -20,10 +20,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bumble.appyx.components.backstack.BackStack
+import com.bumble.appyx.components.backstack.operation.push
+import com.github.isaac.buscaminaskotlin.navigation.root.RootNode
 
 
 @Composable
-fun MenuScreen(modifier: Modifier = Modifier) {
+fun MenuScreen(backStack: BackStack<RootNode.NavTarget>) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -51,12 +54,13 @@ fun MenuScreen(modifier: Modifier = Modifier) {
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Nueva partida",
-                onClick = { Log.d("MenuScreen", "Nueva partida clicked") })
+                onClick = { backStack.push(RootNode.NavTarget.TableroScreen) })
             // Acción al hacer clic en "Nueva partida"
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Configuración",
-                onClick = { Log.d("MenuScreen ", "Configuración clicked") })
+                onClick = { backStack.push(RootNode.NavTarget.AjusteScreen)}
+            )
             // Acción al hacer clic en "Configuración"
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
@@ -74,6 +78,5 @@ fun MenuScreen(modifier: Modifier = Modifier) {
 @Composable
 fun MenuScreenPreview() {
     //val navController = rememberNavController()
-
-    MenuScreen()
+    // MenuScreen()
 }

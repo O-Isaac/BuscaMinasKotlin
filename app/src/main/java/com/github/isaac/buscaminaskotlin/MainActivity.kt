@@ -1,20 +1,25 @@
 package com.github.isaac.buscaminaskotlin
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import com.github.isaac.buscaminaskotlin.components.menu.MenuScreen
-import com.github.isaac.buscaminaskotlin.components.tablero.Layout
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.bumble.appyx.navigation.integration.NodeActivity
+import com.bumble.appyx.navigation.integration.NodeHost
+import com.bumble.appyx.navigation.platform.AndroidLifecycle
+import com.github.isaac.buscaminaskotlin.navigation.root.RootNode
 import com.github.isaac.buscaminaskotlin.ui.theme.BuscaMinasKotlinTheme
 
-class MainActivity : ComponentActivity() {
+class MainActivity : NodeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
             BuscaMinasKotlinTheme {
-                MenuScreen()
+                NodeHost(
+                    lifecycle = AndroidLifecycle(LocalLifecycleOwner.current.lifecycle),
+                    integrationPoint = appyxIntegrationPoint
+                ) {
+                    RootNode(nodeContext = it)
+                }
             }
         }
     }
