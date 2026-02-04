@@ -47,7 +47,7 @@ class RootNode(
     override fun buildChildNode(navTarget: NavTarget, nodeContext: NodeContext): Node<*> =
         when (navTarget) {
             is NavTarget.MenuScreen -> node(nodeContext) {
-                MenuScreen(backStack)
+                MenuScreen()
             }
 
             is NavTarget.AjusteScreen -> node(nodeContext) {
