@@ -1,19 +1,24 @@
 package com.github.isaac.buscaminaskotlin.components.tablero
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.github.isaac.buscaminaskotlin.R
 import com.github.isaac.buscaminaskotlin.models.CeldaInfo
 import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAmarillo
 import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAzul
@@ -53,8 +58,14 @@ fun Celda(
                 )
             }
         } else if (celda.estaMarcada) {
-            // Usamos hierba alta para las banderas
-            Text("🌿", fontSize = 18.sp)
+            // Usamos el drawable de la bandera personalizada
+            Image(
+                painter = painterResource(R.drawable.bandera_removebg),
+                contentDescription = "Bandera",
+                modifier = Modifier
+                    .size(24.dp)
+                    .padding(2.dp)
+            )
         }
     }
 }

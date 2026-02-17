@@ -29,7 +29,7 @@ fun TableroGrid(modifier: Modifier = Modifier, backStack: BackStack<RootNode.Nav
     LaunchedEffect(isAnimating) {
         if (!isAnimating) {
             // La animación ha terminado y el modelo está en reposo
-            delay(100)
+            delay(75)
             visible = true
         }
     }

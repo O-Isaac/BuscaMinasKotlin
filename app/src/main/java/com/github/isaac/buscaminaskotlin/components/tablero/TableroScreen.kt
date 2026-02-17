@@ -85,14 +85,14 @@ fun GameOverOverlay(state: GameState) {
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.padding(24.dp)
         ) {
-            // Texto estilo Dark Souls
+            // Texto estilo Dark Souls con tamaño reducido para evitar saltos de línea
             Text(
                 text = if (isWin) "¡CAMPEÓN LIGA!" else "VOLTORB SE\nAUTODESTRUYÓ",
                 color = if (isWin) Color(0xFFFFCC00) else Color(0xFFD32F2F),
-                fontSize = 40.sp,
+                fontSize = 32.sp,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Center,
-                lineHeight = 48.sp,
+                lineHeight = 38.sp,
                 letterSpacing = 4.sp
             )
             
