@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <style name="Theme.BuscaMinasKotlin" parent="Theme.AppCompat.Light.NoActionBar" />
+
+    <!-- Splash Screen Configuracion -->
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <!-- Fondo de la pantalla completa -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        
+        <!-- Icono central (Usamos la versión con padding para evitar el recorte circular) -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon_with_padding</item>
+        
+        <!-- El color de fondo del icono debe ser igual al del splash -->
+        <item name="windowSplashScreenIconBackgroundColor">@color/white</item>
+        
+        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="postSplashScreenTheme">@style/Theme.BuscaMinasKotlin</item>
+    </style>
 </resources>

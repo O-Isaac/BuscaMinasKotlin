@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- El fondo debe ser el mismo que el del splash screen -->
+    <item android:drawable="@color/white" />
+    
+    <!-- Tu logo centrado con padding para que no lo corte el círculo de Android -->
+    <item
+        android:drawable="@drawable/splashlogo"
+        android:gravity="center"
+        android:top="48dp"
+        android:bottom="48dp"
+        android:left="48dp"
+        android:right="48dp" />
+</layer-list>

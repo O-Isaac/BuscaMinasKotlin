@@ -2,6 +2,7 @@ package com.github.isaac.buscaminaskotlin
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bumble.appyx.navigation.integration.NodeActivity
 import com.bumble.appyx.navigation.integration.NodeHost
@@ -12,6 +13,8 @@ import com.github.isaac.buscaminaskotlin.ui.theme.BuscaMinasKotlinTheme
 class MainActivity : NodeActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val splashScreen = installSplashScreen()
+
         setContent {
             BuscaMinasKotlinTheme {
                 NodeHost(
@@ -22,6 +25,9 @@ class MainActivity : NodeActivity() {
                 }
             }
         }
+
+        // Instalar el splash screen
+        splashScreen.setKeepOnScreenCondition { false }
     }
 }
 
