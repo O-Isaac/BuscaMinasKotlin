@@ -12,7 +12,7 @@ import com.bumble.appyx.navigation.node.Node
 import com.bumble.appyx.navigation.node.node
 import com.github.isaac.buscaminaskotlin.components.ajustes.AjustesScreen
 import com.github.isaac.buscaminaskotlin.components.menu.MenuScreen
-import com.github.isaac.buscaminaskotlin.components.tablero.Layout
+import com.github.isaac.buscaminaskotlin.components.tablero.TableroScreen
 import kotlinx.parcelize.Parcelize
 
 fun createBackStack(nodeContext: NodeContext): BackStack<RootNode.NavTarget> {
@@ -55,7 +55,7 @@ class RootNode(
             }
 
             is NavTarget.TableroScreen -> node(nodeContext) {
-                Layout()
+                TableroScreen(backStack)
             }
         }
 

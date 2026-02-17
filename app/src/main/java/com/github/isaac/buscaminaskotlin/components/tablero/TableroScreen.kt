@@ -21,11 +21,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bumble.appyx.components.backstack.BackStack
 import com.github.isaac.buscaminaskotlin.R
 import com.github.isaac.buscaminaskotlin.models.GameState
+import com.github.isaac.buscaminaskotlin.navigation.RootNode
 
 @Composable
-fun Layout(state: GameState = viewModel()) {
+fun TableroScreen(backStack: BackStack<RootNode.NavTarget>, state: GameState = viewModel()) {
     // Inicializar el tablero si es la primera vez
     LaunchedEffect(Unit) {
         state.reiniciarJuego()
@@ -47,7 +49,7 @@ fun Layout(state: GameState = viewModel()) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TableroTitulo(state)
-            TableroGrid(state = state)
+            TableroGrid(state = state, backStack = backStack)
         }
 
         // Overlay de Fin de Partida (Encima de todo)

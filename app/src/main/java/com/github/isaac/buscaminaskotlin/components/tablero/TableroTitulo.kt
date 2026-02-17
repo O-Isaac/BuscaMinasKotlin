@@ -1,81 +1,82 @@
 package com.github.isaac.buscaminaskotlin.components.tablero
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.isaac.buscaminaskotlin.models.GameState
-import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAmarillo
 import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAzul
 
 @Composable
 fun TableroTitulo(state: GameState = viewModel()) {
-    Column(
+    // Caja blanca que viene desde arriba con bordes redondeados abajo (Sin el título de texto)
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .shadow(8.dp, RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)),
+        color = Color.White.copy(alpha = 0.95f),
+        shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
     ) {
-        // Título Estilo Pokémon
-        Box(
+        Column(
             modifier = Modifier
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(PokemonAzul, PokemonAzul.copy(alpha = 0.8f))
-                    ),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                .border(3.dp, PokemonAmarillo, RoundedCornerShape(12.dp))
-                .padding(horizontal = 24.dp, vertical = 8.dp)
+                .padding(vertical = 16.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = "BuscaMinas POKÉMON",
-                color = PokemonAmarillo,
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 2.sp
+            // Info de partida con mejores colores para fondo blanco
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 40.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                InfoCard(
+                    label = "MINAS", 
+                    value = state.config.minas.toString(),
+                    textColor = PokemonAzul
                 )
-            )
-        }
+                
+                // Separador visual pequeño
+                Box(
+                    modifier = Modifier
+                        .height(30.dp)
+                        .width(1.dp)
+                        .background(Color.LightGray)
+                )
 
-        Spacer(modifier = Modifier.height(12.dp))
-
-        // Info de partida
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            InfoCard(label = "MINAS", value = state.config.minas.toString())
-            InfoCard(label = "MODO", value = state.config.nombre.uppercase())
+                InfoCard(
+                    label = "DIFICULTAD", 
+                    value = state.config.nombre.uppercase(),
+                    textColor = PokemonAzul
+                )
+            }
         }
     }
 }
 
 @Composable
-fun InfoCard(label: String, value: String) {
+fun InfoCard(label: String, value: String, textColor: Color) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             text = label,
-            color = Color.White,
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold
+            color = Color.Gray,
+            fontSize = 11.sp,
+            fontWeight = FontWeight.Bold,
+            letterSpacing = 1.sp
         )
         Text(
             text = value,
-            color = PokemonAmarillo,
+            color = textColor,
             fontSize = 18.sp,
             fontWeight = FontWeight.ExtraBold
         )
