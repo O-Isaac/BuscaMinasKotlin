@@ -6,7 +6,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.bumble.appyx.navigation.integration.NodeActivity
 import com.bumble.appyx.navigation.integration.NodeHost
 import com.bumble.appyx.navigation.platform.AndroidLifecycle
-import com.github.isaac.buscaminaskotlin.navigation.root.RootNode
+import com.github.isaac.buscaminaskotlin.navigation.RootNode
 import com.github.isaac.buscaminaskotlin.ui.theme.BuscaMinasKotlinTheme
 
 class MainActivity : NodeActivity() {
