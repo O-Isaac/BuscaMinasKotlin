@@ -4,8 +4,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.github.isaac.buscaminaskotlin.confg.ConfigManagerMedia
 import com.github.isaac.buscaminaskotlin.confg.IConfigManager
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.random.Random
 
 enum class TipoCelda { MINA, LIBRE }
@@ -36,6 +40,8 @@ class GameState : ViewModel() {
     var estadoPartida by mutableStateOf(EstadoPartida.JUGANDO)
         private set
 
+    private var esPrimerToque = true
+
     private fun crearTablero(): List<List<CeldaInfo>> {
         return List(config.filas) { r ->
             List(config.columns) { c -> CeldaInfo(r, c) }
@@ -45,11 +51,10 @@ class GameState : ViewModel() {
     fun reiniciarJuego() {
         tablero = crearTablero()
         estadoPartida = EstadoPartida.JUGANDO
-        plantarMinas()
-        calcularNumerosTablero()
+        esPrimerToque = true
     }
 
-    private fun plantarMinas() {
+    private fun plantarMinas(filaExcluida: Int, colExcluida: Int) {
         var minasColocadas = 0
         val totalCeldas = config.filas * config.columns
         val maxMinas = minOf(config.minas, totalCeldas - 1)
@@ -57,6 +62,9 @@ class GameState : ViewModel() {
         while (minasColocadas < maxMinas) {
             val fila = Random.nextInt(config.filas)
             val columna = Random.nextInt(config.columns)
+
+            // Evitar que el primer click sea una mina
+            if (fila == filaExcluida && columna == colExcluida) continue
 
             if (tablero[fila][columna].tipo == TipoCelda.LIBRE) {
                 tablero[fila][columna].tipo = TipoCelda.MINA
@@ -88,9 +96,30 @@ class GameState : ViewModel() {
     }
 
     fun desvelarCelda(f: Int, c: Int) {
+        if (estadoPartida != EstadoPartida.JUGANDO) return
+
         val celda = tablero[f][c]
 
-        if (celda.estaRevelada || celda.estaMarcada || estadoPartida != EstadoPartida.JUGANDO) return
+        if (celda.estaRevelada || celda.estaMarcada) return
+
+        if (esPrimerToque) {
+            esPrimerToque = false
+            // Lanzamos corrutina para generar el tablero en segundo plano
+            viewModelScope.launch {
+                withContext(Dispatchers.Default) {
+                    plantarMinas(f, c)
+                    calcularNumerosTablero()
+                }
+                realizarLogicaDesvelar(f, c)
+            }
+        } else {
+            realizarLogicaDesvelar(f, c)
+        }
+    }
+
+    private fun realizarLogicaDesvelar(f: Int, c: Int) {
+        val celda = tablero[f][c]
+        if (celda.estaRevelada || celda.estaMarcada) return
 
         celda.estaRevelada = true
 
@@ -119,7 +148,7 @@ class GameState : ViewModel() {
             for (c in (col - 1)..(col + 1)) {
                 if (f in 0 until config.filas && c in 0 until config.columns) {
                     if (!tablero[f][c].estaRevelada) {
-                        desvelarCelda(f, c)
+                        realizarLogicaDesvelar(f, c)
                     }
                 }
             }

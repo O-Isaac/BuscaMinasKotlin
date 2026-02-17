@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bumble.appyx.components.backstack.BackStack
 import com.github.isaac.buscaminaskotlin.models.GameState
 import com.github.isaac.buscaminaskotlin.navigation.RootNode
+import kotlinx.coroutines.delay
 
 @Composable
 fun TableroGrid(modifier: Modifier = Modifier, backStack: BackStack<RootNode.NavTarget>, state: GameState = viewModel()) {
@@ -23,10 +24,12 @@ fun TableroGrid(modifier: Modifier = Modifier, backStack: BackStack<RootNode.Nav
     val tablero = state.tablero
     var visible by remember { mutableStateOf(false) }
     val isAnimating by backStack.isAnimating.collectAsState()
+    var firstTime by remember { mutableStateOf(true) }
 
     LaunchedEffect(isAnimating) {
         if (!isAnimating) {
             // La animación ha terminado y el modelo está en reposo
+            delay(100)
             visible = true
         }
     }
