@@ -10,6 +10,7 @@ activityCompose = "1.12.1"
 composeBom = "2024.09.00"
 ksp = "2.0.21-1.0.28"
 appyx = "2.0.0"
+splashScreen = "1.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -27,6 +28,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "splashScreen" }
 appyx-components-backstack = { module = "com.bumble.appyx:backstack", version.ref = "appyx" }
 appyx-processor = { module = "com.bumble.appyx:appyx-processor", version.ref = "appyx" }
 appyx-navigation = { module = "com.bumble.appyx:appyx-navigation", version.ref = "appyx" }

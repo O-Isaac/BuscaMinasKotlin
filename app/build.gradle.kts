@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.appyx.components.backstack)
     ksp(libs.appyx.processor)
 
+    implementation(libs.androidx.splashscreen)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
