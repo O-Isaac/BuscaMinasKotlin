@@ -8,34 +8,37 @@ import com.github.isaac.buscaminaskotlin.confg.ConfigManagerMedia
 import com.github.isaac.buscaminaskotlin.confg.IConfigManager
 import kotlin.random.Random
 
+enum class TipoCelda { MINA, LIBRE }
+
+class CeldaInfo(
+    val row: Int,
+    val col: Int,
+    tipoInicial: TipoCelda = TipoCelda.LIBRE
+) {
+    var tipo by mutableStateOf(tipoInicial)
+    var estaRevelada by mutableStateOf(false)
+    var minasCerca by mutableStateOf(0)
+    var estaMarcada by mutableStateOf(false)
+
+    val esMina get() = tipo == TipoCelda.MINA
+}
+
 class GameState : ViewModel() {
 
-    // Simplificamos la clase de datos para que sea más clara
-    class CeldaData(
-        tipoInicial: TipoCelda = TipoCelda.LIBRE
-    ) {
-        var tipo by mutableStateOf(tipoInicial)
-        var visible by mutableStateOf(false)
-        var contador by mutableStateOf(0)
-        var marcada by mutableStateOf(false) // Para poner banderitas
-    }
-
-    enum class TipoCelda { MINA, LIBRE }
     enum class EstadoPartida { JUGANDO, GANADO, PERDIDO }
 
     private var _configManager by mutableStateOf<IConfigManager>(ConfigManagerMedia)
     val config get() = _configManager.config
 
-    // El tablero es una lista de listas para facilitar la reactividad en Compose
     var tablero by mutableStateOf(crearTablero())
         private set
 
     var estadoPartida by mutableStateOf(EstadoPartida.JUGANDO)
         private set
 
-    private fun crearTablero(): List<List<CeldaData>> {
-        return List(config.filas) {
-            List(config.columns) { CeldaData() }
+    private fun crearTablero(): List<List<CeldaInfo>> {
+        return List(config.filas) { r ->
+            List(config.columns) { c -> CeldaInfo(r, c) }
         }
     }
 
@@ -56,7 +59,7 @@ class GameState : ViewModel() {
             val columna = Random.nextInt(config.columns)
 
             if (tablero[fila][columna].tipo == TipoCelda.LIBRE) {
-                tablero[fila][columna].tipo = TipoCelda.MINA // Corregido: antes tenías ==
+                tablero[fila][columna].tipo = TipoCelda.MINA
                 minasColocadas++
             }
         }
@@ -65,7 +68,7 @@ class GameState : ViewModel() {
     private fun calcularNumerosTablero() {
         for (f in 0 until config.filas) {
             for (c in 0 until config.columns) {
-                if (tablero[f][c].tipo == TipoCelda.MINA) {
+                if (tablero[f][c].esMina) {
                     incrementarVecinosDeMina(f, c)
                 }
             }
@@ -77,41 +80,45 @@ class GameState : ViewModel() {
             for (c in (colMina - 1)..(colMina + 1)) {
                 if (f in 0 until config.filas && c in 0 until config.columns) {
                     if (tablero[f][c].tipo == TipoCelda.LIBRE) {
-                        tablero[f][c].contador++
+                        tablero[f][c].minasCerca++
                     }
                 }
             }
         }
     }
 
-    // --- Lógica de Juego ---
-
     fun desvelarCelda(f: Int, c: Int) {
         val celda = tablero[f][c]
 
-        // Si ya es visible, está marcada o terminó el juego, no hacer nada
-        if (celda.visible || celda.marcada || estadoPartida != EstadoPartida.JUGANDO) return
+        if (celda.estaRevelada || celda.estaMarcada || estadoPartida != EstadoPartida.JUGANDO) return
 
-        celda.visible = true
+        celda.estaRevelada = true
 
-        if (celda.tipo == TipoCelda.MINA) {
+        if (celda.esMina) {
             finalizarPartida(EstadoPartida.PERDIDO)
             return
         }
 
-        // Si la celda está vacía (contador 0), desvelar vecinos automáticamente (recursión)
-        if (celda.contador == 0) {
+        if (celda.minasCerca == 0) {
             desvelarVecinosVacios(f, c)
         }
 
         verificarVictoria()
     }
 
+    fun marcarCelda(f: Int, c: Int) {
+        if (estadoPartida != EstadoPartida.JUGANDO) return
+        val celda = tablero[f][c]
+        if (!celda.estaRevelada) {
+            celda.estaMarcada = !celda.estaMarcada
+        }
+    }
+
     private fun desvelarVecinosVacios(fila: Int, col: Int) {
         for (f in (fila - 1)..(fila + 1)) {
             for (c in (col - 1)..(col + 1)) {
                 if (f in 0 until config.filas && c in 0 until config.columns) {
-                    if (!tablero[f][c].visible) {
+                    if (!tablero[f][c].estaRevelada) {
                         desvelarCelda(f, c)
                     }
                 }
@@ -120,9 +127,8 @@ class GameState : ViewModel() {
     }
 
     private fun verificarVictoria() {
-        // Victoria: Todas las celdas LIBRE son visibles
         val todasLibresDesveladas = tablero.flatten().all {
-            it.tipo == TipoCelda.MINA || it.visible
+            it.esMina || it.estaRevelada
         }
 
         if (todasLibresDesveladas) {
@@ -133,16 +139,12 @@ class GameState : ViewModel() {
     private fun finalizarPartida(resultado: EstadoPartida) {
         estadoPartida = resultado
         if (resultado == EstadoPartida.PERDIDO) {
-            // Opcional: Mostrar todas las minas al perder
-            tablero.flatten().filter { it.tipo == TipoCelda.MINA }.forEach { it.visible = true }
+            tablero.flatten().filter { it.esMina }.forEach { it.estaRevelada = true }
         }
-
-        // TODO: Lógica adicional de Game Over o Victoria (sonidos, persistencia, etc.)
-        println("Fin de la partida: $resultado")
     }
 
     fun changeConfigManager(configManager: IConfigManager) {
         _configManager = configManager
-        reiniciarJuego() // Reiniciamos al cambiar dificultad
+        reiniciarJuego()
     }
 }

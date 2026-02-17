@@ -24,8 +24,13 @@ fun TableroGrid(modifier: Modifier = Modifier, state: GameState = viewModel()) {
             val celdaDatos = tablero[fila][columna]
 
             Celda(
-                datos = celdaDatos,
-                onClick = { state.desvelarCelda(fila, columna) }
+                celda = celdaDatos,
+                onClick = { fila, columna ->
+                    state.desvelarCelda(fila, columna)
+                },
+                onLongClick = { fila, columna ->
+                    state.marcarCelda(fila, columna)
+                }
             )
         }
     }
