@@ -21,5 +21,5 @@ object ConfigManagerMedia : IConfigManager {
 }
 
 object ConfigManagerAlta : IConfigManager {
-    override var config = GameConfig(20, 20, 3, "Dificil")
+    override var config = GameConfig(20, 20, 30, "Dificil")
 }
