@@ -11,26 +11,55 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.github.isaac.buscaminaskotlin.models.GameState
 import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAmarillo
 import com.github.isaac.buscaminaskotlin.ui.theme.PokemonAzul
 
 @Composable
-fun Celda(modifier: Modifier = Modifier,
-          fila: Int,
-          columna: Int,
-          onClick: (Int, Int) -> Unit) {
+fun Celda(
+    modifier: Modifier = Modifier,
+    datos: GameState.CeldaData,
+    onClick: () -> Unit
+) {
+    val colorFondo = if (datos.visible) Color.White else PokemonAmarillo
+    val colorBorde = PokemonAzul
+
     Box(
-        modifier = Modifier
+        modifier = modifier
             .size(40.dp)
-            .background(PokemonAmarillo)
-            .border(2.dp, PokemonAzul)
-            .clickable { onClick(fila, columna) },
+            .background(colorFondo)
+            .border(1.dp, colorBorde)
+            .clickable { onClick() },
         contentAlignment = Alignment.Center
     ) {
-        Text("$fila,$columna")
+        if (datos.visible) {
+            when (datos.tipo) {
+                GameState.TipoCelda.MINA -> Text("💣") // Aquí podrías poner un icono de Voltorb
+                GameState.TipoCelda.LIBRE -> {
+                    if (datos.contador > 0) {
+                        Text(
+                            text = datos.contador.toString(),
+                            color = obtenerColorNumero(datos.contador),
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+                }
+            }
+        } else {
+            // Celda oculta: podrías poner un icono de hierba alta
+            if (datos.marcada) Text("🚩")
+        }
     }
+}
 
-    Spacer(modifier = Modifier.height(16.dp))
-
+private fun obtenerColorNumero(contador: Int): Color {
+    return when (contador) {
+        1 -> Color(0xFF1976D2) // Azul
+        2 -> Color(0xFF388E3C) // Verde
+        3 -> Color(0xFFD32F2F) // Rojo
+        else -> Color.Magenta
+    }
 }

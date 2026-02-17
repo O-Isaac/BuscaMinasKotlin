@@ -1,32 +1,26 @@
 package com.github.isaac.buscaminaskotlin.components.tablero
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.github.isaac.buscaminaskotlin.confg.ConfigManagerIntermedio
 import com.github.isaac.buscaminaskotlin.models.GameState
 
-@Preview(showBackground = true)
 @Composable
 fun Layout(state: GameState = viewModel()) {
-    val config = state.config
+    // Inicializar el tablero si es la primera vez (o podrías hacerlo en el init del ViewModel)
+    LaunchedEffect(Unit) {
+        state.reiniciarJuego()
+    }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        TableroTitulo()
-        TableroGrid()
+        TableroTitulo(state)
+        TableroGrid(state = state)
     }
 }

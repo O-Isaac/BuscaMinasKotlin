@@ -9,24 +9,17 @@ data class GameConfig(
     var filas: Int,
     var columns: Int,
     var minas: Int,
+    var nombre: String
 )
 
 object ConfigManagerBaja : IConfigManager {
-    override var config = GameConfig(10, 10, 10)
+    override var config = GameConfig(10, 10, 10, "Facil")
 }
 
 object ConfigManagerMedia : IConfigManager {
-    override var config = GameConfig(15, 15, 20)
+    override var config = GameConfig(15, 15, 20, "Medio")
 }
 
 object ConfigManagerAlta : IConfigManager {
-    override var config = GameConfig(20, 20, 30)
+    override var config = GameConfig(20, 20, 3, "Dificil")
 }
-
-// Deprecated: Use ConfigManagerBaja instead
-@Deprecated("Use ConfigManagerBaja instead", ReplaceWith("ConfigManagerBaja"))
-val ConfigManagerFacil = ConfigManagerBaja
-
-// Deprecated: Use ConfigManagerMedia instead
-@Deprecated("Use ConfigManagerMedia instead", ReplaceWith("ConfigManagerMedia"))
-val ConfigManagerIntermedio = ConfigManagerMedia
