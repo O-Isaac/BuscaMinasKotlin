@@ -5,12 +5,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.bumble.appyx.components.backstack.BackStack
 import com.bumble.appyx.components.backstack.BackStackModel
+import com.bumble.appyx.components.backstack.operation.pop
 import com.bumble.appyx.components.backstack.ui.parallax.BackStackParallax
 import com.bumble.appyx.navigation.composable.AppyxNavigationContainer
 import com.bumble.appyx.navigation.modality.NodeContext
 import com.bumble.appyx.navigation.node.Node
 import com.bumble.appyx.navigation.node.node
 import com.github.isaac.buscaminaskotlin.components.ajustes.AjustesScreen
+import com.github.isaac.buscaminaskotlin.components.creditos.CreditosScreen
 import com.github.isaac.buscaminaskotlin.components.menu.MenuScreen
 import com.github.isaac.buscaminaskotlin.components.tablero.TableroScreen
 import kotlinx.parcelize.Parcelize
@@ -42,6 +44,9 @@ class RootNode(
 
         @Parcelize
         data object TableroScreen : NavTarget()
+
+        @Parcelize
+        data object CreditosScreen : NavTarget()
     }
 
     override fun buildChildNode(navTarget: NavTarget, nodeContext: NodeContext): Node<*> =
@@ -51,11 +56,15 @@ class RootNode(
             }
 
             is NavTarget.AjusteScreen -> node(nodeContext) {
-                AjustesScreen()
+                AjustesScreen(onBackClick = { backStack.pop() })
             }
 
             is NavTarget.TableroScreen -> node(nodeContext) {
                 TableroScreen(backStack)
+            }
+
+            is NavTarget.CreditosScreen -> node(nodeContext) {
+                CreditosScreen(onBackClick = { backStack.pop() })
             }
         }
 

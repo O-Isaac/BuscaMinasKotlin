@@ -53,18 +53,23 @@ fun MenuScreen(backStack: BackStack<RootNode.NavTarget>) {
             MenuButton(
                 texto = "Nueva partida",
                 onClick = { backStack.push(RootNode.NavTarget.TableroScreen) })
-            // Acción al hacer clic en "Nueva partida"
+            
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Configuración",
                 onClick = { backStack.push(RootNode.NavTarget.AjusteScreen)}
             )
-            // Acción al hacer clic en "Configuración"
+
+            Spacer(modifier = Modifier.height(16.dp))
+            MenuButton(
+                texto = "Créditos",
+                onClick = { backStack.push(RootNode.NavTarget.CreditosScreen)}
+            )
+
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Salir",
                 onClick = { Log.d("MenuScreen", "Salir clicked") })
-            // Acción al hacer clic en "Salir"
         }
 
     }

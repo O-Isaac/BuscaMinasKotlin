@@ -74,7 +74,7 @@ fun SeccionTitulo(
 }
 
 @Composable
-fun AjustesScreen(state: GameState = viewModel()) {
+fun AjustesScreen(state: GameState = viewModel(), onBackClick: () -> Unit) {
     // Estados
     var dificultadExpandida by remember { mutableStateOf(false) }
     
@@ -295,10 +295,10 @@ fun AjustesScreen(state: GameState = viewModel()) {
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            // Botón para volver (opcional)
+            // Botón para volver
             MenuButton(
                 texto = "Volver al Menú",
-                onClick = { Log.d("AjustesScreen", "Volver al menú clicked") }
+                onClick = { onBackClick() }
             )
         }
     }
@@ -307,5 +307,5 @@ fun AjustesScreen(state: GameState = viewModel()) {
 @Preview(showBackground = true, locale = "es")
 @Composable
 fun AjustesScreenPreview() {
-    AjustesScreen()
+    AjustesScreen(onBackClick = {})
 }

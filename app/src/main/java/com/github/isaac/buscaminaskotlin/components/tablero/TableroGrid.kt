@@ -24,12 +24,11 @@ fun TableroGrid(modifier: Modifier = Modifier, backStack: BackStack<RootNode.Nav
     val tablero = state.tablero
     var visible by remember { mutableStateOf(false) }
     val isAnimating by backStack.isAnimating.collectAsState()
-    var firstTime by remember { mutableStateOf(true) }
 
     LaunchedEffect(isAnimating) {
         if (!isAnimating) {
             // La animación ha terminado y el modelo está en reposo
-            delay(75)
+            delay(80)
             visible = true
         }
     }
