@@ -49,7 +49,15 @@ fun TableroScreen(backStack: BackStack<RootNode.NavTarget>, state: GameState = v
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TableroTitulo(state)
-            TableroGrid(state = state, backStack = backStack)
+            
+            // Usamos un Box con weight(1f) para ocupar el resto del espacio
+            // y Alignment.Center para centrar el grid verticalmente
+            Box(
+                modifier = Modifier.fillMaxSize().weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                TableroGrid(state = state, backStack = backStack)
+            }
         }
 
         // Overlay de Fin de Partida (Encima de todo)
