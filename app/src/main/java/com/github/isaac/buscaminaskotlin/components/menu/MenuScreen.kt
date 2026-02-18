@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import com.bumble.appyx.components.backstack.BackStack
 import com.bumble.appyx.components.backstack.operation.push
 import com.github.isaac.buscaminaskotlin.navigation.RootNode
+import kotlin.system.exitProcess
 
 
 @Composable
@@ -69,7 +70,9 @@ fun MenuScreen(backStack: BackStack<RootNode.NavTarget>) {
             Spacer(modifier = Modifier.height(16.dp))
             MenuButton(
                 texto = "Salir",
-                onClick = { Log.d("MenuScreen", "Salir clicked") })
+                onClick = {
+                    exitProcess(0)
+                })
         }
 
     }
